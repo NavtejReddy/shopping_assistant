@@ -1,0 +1,7 @@
+{
+  "url": "https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops",
+  "filter": {
+    "price": [{"operator": "lt", "amount": "400.00", "currency": "USD"}]
+  },
+  "result_limit": 5
+}

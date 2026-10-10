@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "shopping-assistant",
+  "version": "0.1.1",
+  "description": "Find matching product links in supported demo catalogs with explicit requirements and evidence-aware filtering.",
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Shopping Assistant",
+        "shortDescription": "Filter shopping catalogs",
+        "longDescription": "Turn natural-language requirements into structured filters, evaluate demo product evidence, and return matching links with honest coverage and unknowns.",
+        "category": "Productivity",
+        "capabilities": [
+          "Read"
+        ],
+        "defaultPrompt": [
+          "Find demo laptops under $800 with at least 8GB RAM and SSD storage. Prefer Windows."
+        ]
+      }
+    }
+  }
+}

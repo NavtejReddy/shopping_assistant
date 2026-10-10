@@ -1,0 +1,27 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+build/
+dist/
+
+# Mutable local demo prices
+/demo_shop/prices.local.json
+/demo_shop/prices.local.tmp
+
+# Local tools, generated media, and editor state
+node_modules/
+.DS_Store
+*.log
+.coverage
+htmlcov/
+.idea/
+.vscode/
+.agents/
+.codex/
+# Incomplete video authoring workspace; not needed by the application
+/demo-video/

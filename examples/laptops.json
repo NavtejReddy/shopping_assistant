@@ -1,0 +1,9 @@
+{
+  "url": "https://webscraper.io/test-sites/e-commerce/allinone/computers/laptops",
+  "filter": {
+    "price": [{"operator": "lt", "amount": "800.00", "currency": "USD"}],
+    "requirements": ["At least 8GB RAM", "Has SSD storage"],
+    "preferences": ["Windows operating system"]
+  },
+  "result_limit": 5
+}

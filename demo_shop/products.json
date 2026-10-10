@@ -1,0 +1,12 @@
+[
+  {"id":"1","name":"Atlas Air 14","description":"14-inch IPS display · 16GB RAM · 512GB SSD · Intel Core i5 · 1.3 kg · Windows 11 · Up to 10 hours battery life.","price":"950.00","color":"#667bda","tag":"Everyday favorite"},
+  {"id":"2","name":"Orbit Book 13","description":"13-inch display · 8GB RAM · 256GB SSD · Intel Core i3 · 1.2 kg · Windows 11 · Up to 8 hours battery life.","price":"549.00","color":"#bd8d62","tag":"Travel light"},
+  {"id":"3","name":"Nova Studio 16","description":"16-inch OLED display · 32GB RAM · 1TB SSD · NVIDIA RTX 4060 · 2.1 kg · Windows 11 · Up to 6 hours battery life.","price":"1599.00","color":"#946bb8","tag":"For creators"},
+  {"id":"4","name":"Pine Everyday 15","description":"15-inch display · 8GB RAM · 256GB SSD · AMD Ryzen 3 · 1.8 kg · Windows 11 · Up to 7 hours battery life.","price":"449.00","color":"#70a68b","tag":"Easy essentials"},
+  {"id":"5","name":"Atlas Pro 14","description":"14-inch display · 16GB RAM · 1TB SSD · Intel Core i7 · 1.4 kg · Windows 11 · Up to 12 hours battery life.","price":"1099.00","color":"#557b94","tag":"Work anywhere"},
+  {"id":"6","name":"Volt Gaming 15","description":"15-inch 144Hz display · 16GB RAM · 512GB SSD · NVIDIA RTX 4050 · 2.3 kg · Windows 11 · Up to 5 hours battery life.","price":"1199.00","color":"#c77873","tag":"Ready to play"},
+  {"id":"7","name":"Orbit Chromebook","description":"14-inch display · 4GB RAM · 64GB eMMC storage · 1.4 kg · ChromeOS · Up to 10 hours battery life.","price":"299.00","color":"#91a65d","tag":"Keep it simple"},
+  {"id":"8","name":"Pine Flex 14","description":"14-inch touchscreen convertible · 16GB RAM · 512GB SSD · AMD Ryzen 5 · 1.5 kg · Windows 11 · Up to 9 hours battery life.","price":"849.00","color":"#ba8cbd","tag":"A fresh perspective"},
+  {"id":"9","name":"Nova Linux 14","description":"14-inch matte display · 16GB RAM · 512GB SSD · AMD Ryzen 5 · 1.4 kg · Ubuntu Linux · Up to 11 hours battery life.","price":"899.00","color":"#b69b54","tag":"Made to build"},
+  {"id":"10","name":"Atlas Max 17","description":"17-inch display · 32GB RAM · 1TB SSD · Intel Core i9 · 2.5 kg · Windows 11 · Up to 6 hours battery life.","price":"1899.00","color":"#718594","tag":"Room for more"}
+]

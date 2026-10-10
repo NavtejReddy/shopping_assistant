@@ -1,0 +1,5 @@
+{
+  "url": "http://127.0.0.1:8765/laptops",
+  "filter": {"price": [{"operator": "lt", "amount": "800", "currency": "USD"}]},
+  "result_limit": 10
+}
