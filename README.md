@@ -4,7 +4,7 @@ A local MCP server and plugin skill that turn confirmed shopping requirements in
 
 ## Product walkthrough
 
-[![Watch the Shopping Assistant workflow](docs/media/shopping-assistant-poster.jpg)](docs/media/shopping-assistant.mp4)
+https://github.com/user-attachments/assets/950b7fef-8d07-4d82-97dd-15e2661a9fb5
 
 [Watch or download the 60-second video (MP4)](docs/media/shopping-assistant.mp4).
 
