@@ -2,7 +2,27 @@
 
 A local MCP server and plugin skill that turn confirmed shopping requirements into matching product URLs. ChatGPT constructs the filter; the backend extracts listing evidence, checks prices in code, and uses OpenAI Decisions (`gpt-6-luna`) for semantic criteria.
 
-![Fieldwork demo storefront](demo_shop/preview.jpg)
+## Product walkthrough
+
+[![Watch the Shopping Assistant workflow](docs/media/shopping-assistant-poster.jpg)](docs/media/shopping-assistant.mp4)
+
+[Watch or download the 60-second video (MP4)](docs/media/shopping-assistant.mp4).
+
+## Recommended workflow
+
+**For this project, the best workflow is ChatGPT + the Shopping Assistant plugin + Decisions + daily dot checks.** It combines a conversational shopping brief, exact budget checks, evidence-based requirement filtering, and ongoing follow-up.
+
+1. **Tell ChatGPT what you need.** Provide a supported catalog URL, budget, mandatory requirements, and optional preferences.
+2. **Confirm the criteria.** ChatGPT turns your request into a structured filter before invoking the plugin.
+3. **Let the plugin evaluate the catalog.** Code checks exact prices; OpenAI Decisions evaluates product descriptions against your requirements. Missing facts and failed checks stay explicit.
+4. **Ask your dot to check every day.** Reuse the same confirmed criteria and notify you only when a new product matches, including its price and link.
+5. **Review the match and open the product link.** You remain in control of the purchase decision.
+
+Example request after connecting the plugin:
+
+> Search http://127.0.0.1:8765/laptops for laptops under $800 with at least 16GB RAM and SSD storage. Check every day with the same criteria using filter_products. Notify me only about newly matching products, with their prices and links.
+
+Confirm that your dot saved the recurring task. The dot manages scheduling; the plugin performs each fresh search. The catalog and MCP server must remain reachable from the dot's execution environment.
 
 ## Architecture
 
@@ -52,7 +72,7 @@ For a local Streamable HTTP client:
 .venv/bin/python -m shopping_assistant.server --transport http --port 8000
 ```
 
-The endpoint is `http://127.0.0.1:8000/mcp`. It is deliberately loopback-only and unauthenticated for local development. The server does not start automatically on installation. For the personal hackathon demo, an HTTPS tunnel can expose this server without authentication. Anyone who knows that URL can trigger requests billed to the server owner. Per-search caps do not impose a total spending quota; stop the tunnel after the demo.
+The endpoint is `http://127.0.0.1:8000/mcp`. It is deliberately loopback-only and unauthenticated for local development. The server does not start automatically on installation. For a temporary personal setup, an HTTPS tunnel can expose this server without authentication. Anyone who knows that URL can trigger requests billed to the server owner. Per-search caps do not impose a total spending quota; stop the tunnel when finished.
 
 For a stdio client, use the absolute path to this checkout's `.venv/bin/python`, arguments `-m shopping_assistant.server`, and this project directory as `cwd`. The `.env` is resolved relative to the source checkout, not the client's working directory.
 
@@ -60,7 +80,7 @@ For a stdio client, use the absolute path to this checkout's `.venv/bin/python`,
 
 `filter_products(url, filter, result_limit=10)` accepts the shape illustrated in `examples/laptops.json`:
 
-- `url`: HTTPS listing URL from the allowlist below, or the exact local demo listing when demo mode is enabled; no query or fragment.
+- `url`: HTTPS listing URL from the allowlist below, or the exact local Fieldwork listing when local catalog access is enabled; no query or fragment.
 - `filter.price`: up to two `{operator, amount, currency}` conditions. Operators: `lt`, `lte`, `gt`, `gte`; currency: `USD`. Amounts support two decimal places. Comparisons use decimal arithmetic. Under $800 excludes exactly $800.
 - `filter.requirements`: up to eight mandatory natural-language criteria (all must match).
 - `filter.preferences`: up to four optional criteria, equally weighted for ranking.
@@ -79,7 +99,7 @@ Definite mandatory failures exclude a product. Unknown mandatory facts produce `
 - https://webscraper.io/test-sites/e-commerce/allinone/phones/touch
 - http://127.0.0.1:8765/laptops (local Fieldwork shop; requires `SHOPPING_DEMO_ENABLED=1`, see below)
 
-These are demo catalogs, not current purchasable offers. Only the supplied listing is fetched. No product-detail browsing, pagination, images, other stores, currency conversion, taxes/shipping calculation, persistent cache, watchlists, or purchases. Unsupported URLs and redirects are rejected. The fetched body is capped at 3 MB.
+These catalogs contain test listings, not current purchasable offers. Only the supplied listing is fetched. No product-detail browsing, pagination, images, other stores, currency conversion, taxes/shipping calculation, persistent cache, watchlists, or purchases. Unsupported URLs and redirects are rejected. The fetched body is capped at 3 MB.
 
 Defaults: first 30 products, 5 simultaneous evaluations, 30-second request timeout, 180-second evaluation deadline measured from search start. A semantic search sends one Decisions request per product that passes exact checks, with all semantic questions grouped together. One SDK retry is allowed; cancelled or failed evaluations stay explicit. Repeating a search repeats the API calls. These are per-search limits, not production account quotas.
 
@@ -87,7 +107,7 @@ Defaults: first 30 products, 5 simultaneous evaluations, 30-second request timeo
 
 `plugins/shopping-assistant/` contains the portable `plugin.json`, local `mcp.json`, and `skills/shopping-assistant/SKILL.md`. The skill guides confirmation, tool arguments, evidence-aware presentation, and refinements. MCP server instructions provide a short version to clients that only connect the tool.
 
-The package points at the local HTTP endpoint; run it before connecting a supported local client. It is not installed, published, or registered in ChatGPT automatically. ChatGPT cloud cannot reach your machine's loopback URL. For a personal cloud demo, supply a reachable HTTPS endpoint and select No authentication during registration. Follow [plugin release instructions](docs/plugin-release.md). A skill file alone does not create a server connection. No custom visual extension or Chrome extension is needed for this MVP.
+The package points at the local HTTP endpoint; run it before connecting a supported local client. It is not installed, published, or registered in ChatGPT automatically. ChatGPT cloud cannot reach your machine's loopback URL. For a personal cloud setup, supply a reachable HTTPS endpoint and select No authentication during registration. Follow [plugin release instructions](docs/plugin-release.md). A skill file alone does not create a server connection. No custom visual extension or Chrome extension is needed for this MVP.
 
 ## Tests
 
@@ -95,7 +115,7 @@ The package points at the local HTTP endpoint; run it before connecting a suppor
 .venv/bin/python -m unittest discover -s tests -v
 ```
 
-The offline suite uses a saved public listing and mocked provider responses. It covers extraction, unsafe URLs, redirects, missing data, exact price boundaries, invalid filters, mandatory/preference behavior, provider failures/refusals, search deadlines, result caps, and MCP discovery/structured output. It does not require `.env` or contact external services. Demo integration tests bind an ephemeral loopback port.
+The offline suite uses a saved public listing and mocked provider responses. It covers extraction, unsafe URLs, redirects, missing data, exact price boundaries, invalid filters, mandatory/preference behavior, provider failures/refusals, search deadlines, result caps, and MCP discovery/structured output. It does not require `.env` or contact external services. Storefront integration tests bind an ephemeral loopback port.
 
 Try the skill's sample requests after connecting ChatGPT. Live tool selection and presentation are not validated by local tests.
 
@@ -107,11 +127,11 @@ Verified locally on October 10, 2026: all 22 tests passed; editable installation
 - [Plugin packaging](https://developers.openai.com/plugins/build/plugins)
 - [FastMCP tools](https://gofastmcp.com/servers/tools)
 
-The fixture `tests/fixtures/laptops.html` was retrieved from the public Web Scraper laptop demo on October 10, 2026 and is retained solely for reproducible extraction tests.
+The fixture `tests/fixtures/laptops.html` was retrieved from the public Web Scraper test catalog on October 10, 2026 and is retained solely for reproducible extraction tests.
 
-## Local demo shop (editable prices)
+## Local Fieldwork shop (editable prices)
 
-The checkout includes **Fieldwork**, a fictional ten-laptop shop with local SVG illustrations,
+The checkout includes **Fieldwork**, a ten-laptop sample shop with local SVG illustrations,
 product pages, a price editor, and reset. It uses Python's standard library; no extra install.
 
 Start the shop in one terminal:
@@ -123,9 +143,9 @@ Start the shop in one terminal:
 Open http://127.0.0.1:8765/laptops and http://127.0.0.1:8765/admin.
 Use the exact `127.0.0.1` address (not `localhost`). Prices persist in
 `demo_shop/prices.local.json`; the reset button restores `demo_shop/products.json`.
-This is a local-only demo with no checkout or payments.
+This is a local-only catalog with no checkout or payments.
 
-Start the MCP server in another terminal with demo access enabled:
+Start the MCP server in another terminal with local catalog access enabled:
 
 ```sh
 SHOPPING_DEMO_ENABLED=1 .venv/bin/python -m shopping_assistant.server --transport http --port 8000
@@ -135,27 +155,27 @@ Alternatively add `SHOPPING_DEMO_ENABLED=1` to the checkout's `.env` and restart
 server. Only the exact listing `http://127.0.0.1:8765/laptops` is additionally permitted;
 other local addresses remain rejected. All catalog requests fetch fresh HTML.
 
-### Repeatable demonstration
+### Repeatable price-change walkthrough
 
 1. Reset prices in the editor.
 2. Run `SHOPPING_DEMO_ENABLED=1 .venv/bin/python -m shopping_assistant.cli examples/demo-shop.json`.
    Three products are under $800; Atlas Air 14 is excluded at $950.
 3. Change Atlas Air 14 to $750 and save. Refresh the storefront to see the change.
 4. Repeat the same command. Four products now match, including Atlas Air 14 at $750.
-5. Reset to repeat the demo. No API requests are made by this price-only example.
+5. Reset to repeat the walkthrough. No API requests are made by this price-only example.
 
-For the intended semantic demonstration, use `examples/demo-shop-laptops.json` instead
+For semantic filtering, use `examples/demo-shop-laptops.json` instead
 (requires the existing OpenAI key and sends paid semantic requests). At starting prices,
 none satisfy both the budget and 16GB RAM; after the edit Atlas Air 14 should qualify.
 AI judgments still use the engine's existing uncertainty/error handling.
 
 Once the plugin is connected to a local task accessible to your dot, request:
 “Search http://127.0.0.1:8765/laptops for laptops under $800 with at least 16GB RAM and
-SSD storage. Check again in five minutes with the same criteria using filter_products;
+SSD storage. Check every day with the same criteria using filter_products;
 notify me about newly matching products with their prices and links.”
 Confirm the dot saved the follow-up. Keep the shop, MCP server, and connected computer
 running. Scheduling is managed by the dot, not by this website. Cloud-only access to
-this loopback endpoint is not configured by this demo.
+this loopback endpoint requires a reachable server connection.
 
 ## Contributing and publishing
 
@@ -165,7 +185,8 @@ using a work SSH identity. GitHub Actions runs tests without API credentials.
 The Python dependency lock records the tested environment; the application is
 intended to run from an editable source checkout (including `demo_shop/` assets).
 
-The optional, incomplete `demo-video/` authoring workspace is excluded from Git.
+The finished product video and preview are included in `docs/media/`.
+The optional `demo-video/` authoring workspace is excluded from Git.
 Generated plugin archives belong in `dist/` and are also excluded. No live tunnel
 URL or account-specific plugin ID is required in committed configuration.
 

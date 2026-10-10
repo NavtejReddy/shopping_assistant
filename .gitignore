@@ -23,5 +23,5 @@ htmlcov/
 .vscode/
 .agents/
 .codex/
-# Incomplete video authoring workspace; not needed by the application
+# Video authoring workspace; published video assets live in docs/media
 /demo-video/
