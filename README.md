@@ -56,6 +56,28 @@ reliable inventory and price updates, persistent shopping preferences, and
 user-authorized transaction workflows. Market adoption and commercial impact
 are hypotheses to test as that coverage grows.
 
+### Dollar-scale opportunity
+
+**A $1.23 trillion U.S. online retail market provides the backdrop for this
+opportunity.** The U.S. Census Bureau's March 2026 release estimated 2025 retail
+e-commerce sales at **$1,233.7 billion**. This measures retail transaction value,
+not the revenue available to a shopping assistant.
+[Source: U.S. Census Bureau, Q4 2025 release](https://www2.census.gov/retail/releases/historical/ecomm/25q4.pdf).
+
+To illustrate the scale, if a future service influenced **0.01%** of that annual
+spending, it would help direct approximately **$123 million in purchases**.
+At **0.1%**, that becomes approximately **$1.23 billion**. Assuming all those
+purchases were eligible for an illustrative **2% referral fee**, the respective
+annual gross revenues would be approximately **$2.47 million** and **$24.67 million**,
+before operating costs, refunds, and acquisition costs.
+
+A separate subscription scenario—**10,000 paying users at $10 per month**—would
+produce **$1.2 million in annual recurring revenue**, before costs and churn.
+These are transparent scenario calculations, not forecasts, current traction,
+company valuations, or estimates of this prototype's addressable market.
+They show why moving even a small share of shopping discovery into ChatGPT and
+personal dots could support a meaningful business as retailer coverage expands.
+
 ### Startup opportunity and business value
 
 The startup opportunity is a personal shopping agent that maintains the customer
