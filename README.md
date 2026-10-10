@@ -30,11 +30,79 @@ The project has 22 locally passing tests covering extraction, filter validation,
 
 Live checks also exercised HTTP and stdio MCP discovery, public-catalog extraction, and a three-product Decisions smoke test. These checks establish working paths, not a broad semantic-accuracy benchmark. The [repeatable walkthrough](#repeatable-price-change-walkthrough) explains the expected price-only transition from three matches to four. Daily dot notifications and skill behavior inside ChatGPT are not established by the automated tests and require separate host-level verification.
 
+## Potential market impact: shopping through ChatGPT and personal dots
+
+Shopping Assistant points toward a shift in the shopping interface: from browsing
+storefronts and repeatedly adjusting filters to expressing intent through ChatGPT
+and delegating follow-up to a personal dot. The ambition is for a shopper's own
+dot to become the primary interface for discovery, comparison, and monitoring,
+bringing relevant choices back into the conversation when they fit the brief.
+
+In that experience, the shopper describes their needs, budget, and preferences
+once. Their dot carries those requirements across subsequent checks and presents
+actionable options. Retailer websites become underlying sources of product
+information rather than the place where every shopping journey must begin.
+The shopper stays in control of decisions and purchases.
+
+This could disrupt how products are discovered and how retailers earn attention.
+Shoppers could spend less time repeating searches, while retailers with clear,
+accurate product information could compete on how well their products satisfy a
+specific need. The opportunity is a personal shopping relationship built around
+the buyer's intent, rather than each store's navigation and filter interface.
+
+The current catalog-filtering plugin is the first building block of that vision.
+Expanding it into a broad shopping service would require retailer integrations,
+reliable inventory and price updates, persistent shopping preferences, and
+user-authorized transaction workflows. Market adoption and commercial impact
+are hypotheses to test as that coverage grows.
+
+### Startup opportunity and business value
+
+The startup opportunity is a personal shopping agent that maintains the customer
+relationship across retailers. If discovery moves into ChatGPT and personal dots,
+the agent could become the starting point for comparison and repeat purchases.
+Retailers would compete to satisfy the shopper's stated requirements through
+accurate, accessible product information.
+
+Potential business models include:
+
+- **Consumer subscriptions:** ongoing monitoring of complex shopping needs,
+  price changes, and newly matching products.
+- **Retailer integrations:** connections to structured product and inventory
+  feeds that help personal dots discover and evaluate relevant offers.
+- **Referral revenue:** disclosed commissions on resulting purchases, while
+  keeping ranking aligned with the shopper's requirements rather than commission size.
+- **Shopping infrastructure:** an API that provides evidence-based product
+  filtering to other agents and applications.
+
+Long-term business value would come from reliable retailer coverage,
+user-controlled preference history, and measured recommendation quality.
+Together, these could make the service more useful with repeated use and harder
+to replace than a standalone model API wrapper. These are potential commercial
+directions for the product, not current revenue streams.
+
+## Measured semantic results
+
+On October 10, 2026, the production Decisions adapter matched all **12 of 12**
+expected labels in the authored semantic regression set, with **zero API errors**.
+The run took **5.84 seconds** for the 12 sequential calls. Cases cover explicit
+matches, contradictions, missing facts, ambiguous configurations, preferences,
+AND/OR requirements, and an instruction embedded in product text.
+
+The initial run scored 11/12 and exposed a negation error. Clarifying the prompt's
+handling of explicitly absent features corrected that case in the subsequent run.
+Both [baseline](evaluations/baseline.json) and [updated results](evaluations/latest.json)
+are included. This is a small development regression set used to improve the
+prompt, not held-out accuracy or a general shopping benchmark.
+[Run it yourself](docs/evaluation.md#semantic-evaluation-requires-api-access).
+
 ## Product walkthrough
 
 https://github.com/user-attachments/assets/950b7fef-8d07-4d82-97dd-15e2661a9fb5
 
 [Watch or download the 60-second video (MP4)](docs/media/shopping-assistant.mp4).
+
+[Read the text walkthrough](docs/walkthrough.md) · [Reproduce the results](docs/evaluation.md) · [Inspect semantic evaluation cases](evaluations/semantic-cases.json)
 
 ## Recommended workflow
 

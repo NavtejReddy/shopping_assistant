@@ -1,0 +1,96 @@
+{
+  "timestamp": "2026-10-10T07:34:36.795227+00:00",
+  "model": "gpt-6-luna",
+  "dataset_sha256": "192440e625f2f263a4c978293d2ae709fe523125e081ccddc6baf5c21c76d129",
+  "cases": 12,
+  "correct": 11,
+  "errors": 0,
+  "elapsed_seconds": 7.44,
+  "results": [
+    {
+      "case_id": "explicit-ram-match",
+      "expected": "match",
+      "actual": "match",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "explicit-ram-failure",
+      "expected": "no_match",
+      "actual": "no_match",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "missing-ram",
+      "expected": "insufficient_information",
+      "actual": "insufficient_information",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "ssd-match",
+      "expected": "match",
+      "actual": "match",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "ssd-failure",
+      "expected": "no_match",
+      "actual": "match",
+      "correct": false,
+      "mandatory": true
+    },
+    {
+      "case_id": "battery-unknown",
+      "expected": "insufficient_information",
+      "actual": "insufficient_information",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "optional-windows",
+      "expected": "no_match",
+      "actual": "no_match",
+      "correct": true,
+      "mandatory": false
+    },
+    {
+      "case_id": "optional-windows-match",
+      "expected": "match",
+      "actual": "match",
+      "correct": true,
+      "mandatory": false
+    },
+    {
+      "case_id": "and-condition",
+      "expected": "match",
+      "actual": "match",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "or-condition",
+      "expected": "match",
+      "actual": "match",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "ambiguous-configuration",
+      "expected": "insufficient_information",
+      "actual": "insufficient_information",
+      "correct": true,
+      "mandatory": true
+    },
+    {
+      "case_id": "untrusted-instruction",
+      "expected": "no_match",
+      "actual": "no_match",
+      "correct": true,
+      "mandatory": true
+    }
+  ],
+  "scope": "Single run on 12 authored synthetic cases; not a general shopping accuracy estimate."
+}
