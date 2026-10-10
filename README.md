@@ -1,6 +1,34 @@
 # Shopping Assistant
 
-A local MCP server and plugin skill that turn confirmed shopping requirements into matching product URLs. ChatGPT constructs the filter; the backend extracts listing evidence, checks prices in code, and uses OpenAI Decisions (`gpt-6-luna`) for semantic criteria.
+Describe what you need once, then turn a catalog into a shortlist you can inspect. Shopping Assistant converts confirmed shopping requirements into matching product links, combining exact budget checks with natural-language evaluation of product descriptions.
+
+For example: **“Find laptops under $800 with at least 16GB RAM and SSD storage.”** ChatGPT constructs the filter, the MCP backend checks listed prices in code, and OpenAI Decisions (`gpt-6-luna`) evaluates semantic requirements. Missing facts remain explicit instead of becoming guessed specifications. A connected dot can reuse the same filter for follow-up searches; scheduling is provided by the host, not this backend.
+
+## Why this project matters
+
+### Usefulness: turn a shopping brief into an actionable shortlist
+
+Shopping requirements combine hard constraints, such as budget, with preferences and details buried in descriptions. This project lets a user express those requirements together, confirm the interpretation, and receive product links with per-criterion outcomes. Separating mandatory requirements from preferences keeps an attractive optional feature from overriding a deal-breaker.
+
+The price-change walkthrough makes the benefit concrete: Atlas Air 14 starts at $950 and becomes budget-eligible after a change to $750. Reusing the original filter lets the user check what now qualifies without restating the shopping brief. The current prototype supports specific test catalogs; usefulness on arbitrary retailers and time saved by real shoppers have not been measured.
+
+### Technical execution: use code and AI where each fits
+
+Prices use decimal comparisons, including the difference between “under” and “at most.” Decisions handles natural-language criteria against supplied product evidence. Exact rejections skip semantic API calls, and each remaining product groups its semantic questions into one request. Bounded concurrency, product caps, deadlines, and explicit error outcomes keep the execution inspectable.
+
+The integration is a working MCP tool plus a packaged skill that guides confirmation and result presentation. Review the [filtering pipeline](shopping_assistant/pipeline.py), [Decisions adapter](shopping_assistant/decisions.py), [MCP server](shopping_assistant/server.py), and [shopping skill](plugins/shopping-assistant/skills/shopping-assistant/SKILL.md). This submission does not claim a custom sidebar extension, an Agents API integration, or MCP event triggers.
+
+### Originality: preserve the shopping intent and uncertainty across checks
+
+The distinctive design is the combination of a conversational shopping brief, deterministic budget enforcement, evidence-based semantic classification, and a reusable filter for later searches. A missing specification produces an uncertain result; a provider failure remains an error. Neither is silently presented as a product rejection.
+
+This is a specific workflow contribution, not a claim that shopping assistants or price alerts are new. The opportunity is to carry the same user-confirmed requirements from an initial shortlist into ongoing checks through a connected dot.
+
+### How well it works: provide reproducible evidence
+
+The project has 22 locally passing tests covering extraction, filter validation, price boundaries, uncertainty, provider failures, deadlines, result caps, MCP output, and a local price-change integration. A clean installation passed the suite without API credentials. See [engine tests](tests/test_shopping.py), [storefront integration tests](tests/test_demo_shop.py), and the [CI workflow](.github/workflows/tests.yml).
+
+Live checks also exercised HTTP and stdio MCP discovery, public-catalog extraction, and a three-product Decisions smoke test. These checks establish working paths, not a broad semantic-accuracy benchmark. The [repeatable walkthrough](#repeatable-price-change-walkthrough) explains the expected price-only transition from three matches to four. Daily dot notifications and skill behavior inside ChatGPT are not established by the automated tests and require separate host-level verification.
 
 ## Product walkthrough
 
@@ -10,7 +38,7 @@ https://github.com/user-attachments/assets/950b7fef-8d07-4d82-97dd-15e2661a9fb5
 
 ## Recommended workflow
 
-**For this project, the best workflow is ChatGPT + the Shopping Assistant plugin + Decisions + daily dot checks.** It combines a conversational shopping brief, exact budget checks, evidence-based requirement filtering, and ongoing follow-up.
+**The intended end-to-end workflow is ChatGPT + the Shopping Assistant plugin + Decisions, with optional daily dot checks.** Filtering is implemented in this repository; recurring follow-up depends on a connected dot and a saved schedule. The steps below describe how to combine them, not evidence that a daily notification has already completed.
 
 1. **Tell ChatGPT what you need.** Provide a supported catalog URL, budget, mandatory requirements, and optional preferences.
 2. **Confirm the criteria.** ChatGPT turns your request into a structured filter before invoking the plugin.
